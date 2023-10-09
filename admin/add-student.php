@@ -1,33 +1,34 @@
 <?php 
-  $corepage = explode('/', $_SERVER['PHP_SELF']);
-    $corepage = end($corepage);
-    if ($corepage!=='index.php') {
-      if ($corepage==$corepage) {
-        $corepage = explode('.', $corepage);
-       header('Location: index.php?page='.$corepage[0]);
-     }
-    }
-
-  if (isset($_POST['addstudent'])) {
-  	$name = $_POST['name'];
-  	$roll = $_POST['roll'];
-  	$address = $_POST['address'];
-  	$pcontact = $_POST['pcontact'];
-  	$class = $_POST['class'];
-  	
-  	$photo = explode('.', $_FILES['photo']['name']);
-  	$photo = end($photo); 
-  	$photo = $roll.date('Y-m-d-m-s').'.'.$photo;
-
-  	$query = "INSERT INTO `student_info`(`name`, `roll`, `class`, `city`, `pcontact`, `photo`) VALUES ('$name', '$roll', '$class', '$address', '$pcontact','$photo');";
-  	if (mysqli_query($db_con,$query)) {
-  		$datainsert['insertsucess'] = '<p style="color: green;">Estudiante Ingresado Exitosamente</p>';
-  		move_uploaded_file($_FILES['photo']['tmp_name'], 'images/'.$photo);
-  	}else{
-  		$datainsert['inserterror']= '<p style="color: red;">Estudiante no ingresado, revise la información diligenciada.</p>';
-  	}
+$corepage = explode('/', $_SERVER['PHP_SELF']);
+$corepage = end($corepage);
+if ($corepage !== 'index.php') {
+  if ($corepage == $corepage) {
+    $corepage = explode('.', $corepage);
+    header('Location: index.php?page=' . $corepage[0]);
   }
+}
+
+if (isset($_POST['addstudent'])) {
+  $name = preg_replace('/[^A-Za-z\s]/', '', $_POST['name']);
+  $roll = preg_replace('/[^0-9]/', '', $_POST['roll']);
+  $address = preg_replace('/[^A-Za-z0-9\s#-]/', '', $_POST['address']);
+  $pcontact = preg_replace('/[^0-9]/', '', $_POST['pcontact']);
+  $class = $_POST['class'];
+
+  $photo = explode('.', $_FILES['photo']['name']);
+  $photo = end($photo);
+  $photo = $roll . date('Y-m-d-m-s') . '.' . $photo;
+
+  $query = "INSERT INTO `student_info`(`name`, `roll`, `class`, `city`, `pcontact`, `photo`) VALUES ('$name', '$roll', '$class', '$address', '$pcontact','$photo');";
+  if (mysqli_query($db_con, $query)) {
+    $datainsert['insertsucess'] = '<p style="color: green;">Estudiante Ingresado Exitosamente</p>';
+    move_uploaded_file($_FILES['photo']['tmp_name'], 'images/' . $photo);
+  } else {
+    $datainsert['inserterror'] = '<p style="color: red;">Estudiante no ingresado, revise la información diligenciada.</p>';
+  }
+}
 ?>
+
 <h1 class="text-primary"><i class="fas fa-user-plus"></i>  Agregar Estudiante<small class="text-warning"> Nuevo Estudiante</small></h1>
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">

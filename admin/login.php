@@ -26,6 +26,20 @@ if(isset($_SESSION['user_login'])){
 				if ($row['password']==sha1(md5($password))) {
 					if ($row['status']=='activo') {
 						$_SESSION['user_login']=$username;
+
+                        // cookies
+
+                        $cookie_options = array(
+                            'expires' => time() + 3600, // Tiempo de expiración en segundos
+                            'path' => '/', // Ruta de la cookie
+                            'domain' => '', // Dominio (puedes especificar un dominio si es necesario)
+                            'secure' => true, // Establecer a true para habilitar cookies seguras (HTTPS)
+                            'httponly' => true, // Establecer a true para cookies HTTP Only
+                            'samesite' => 'Strict' // Puedes usar 'Strict', 'Lax', o 'None' según tus necesidades
+                        );
+                        setcookie("username_cookie", $username, $cookie_options);
+
+
 						header('Location: index.php');
 					}else{
 						$status_inactive = "Su estado está inactivo, póngase en contacto con el administrador o el soporte";
@@ -43,9 +57,6 @@ if(isset($_SESSION['user_login'])){
 
 ?>
 
-
-
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -59,25 +70,7 @@ if(isset($_SESSION['user_login'])){
     <link rel="stylesheet" type="text/css" href="../css/style.css">
     <style>
         .fondo-login {
-    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-    background-size: 200% 200%;
-    animation: gradient 15s ease infinite;
-    min-height: 100vh;
-    padding-top: 50px;
-}
-@keyframes gradient {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
-}
+    background: 
 .icon .dog-icon {
     font-size: 50px;
     margin-bottom: 10px;
@@ -103,8 +96,6 @@ if(isset($_SESSION['user_login'])){
 <body class="fondo-login">
 
 
-
-
 <div class="container">
     <br>
     <div class="text-center icon">
@@ -119,6 +110,14 @@ if(isset($_SESSION['user_login'])){
         <?php if(isset($worngpass)){ ?> <div role="alert" aria-live="assertive" aria-atomic="true" align="center" class="toast alert alert-danger fade hide" data-delay="2000"><?php echo $worngpass; ?></div><?php };?>
         <?php if(isset($status_inactive)){ ?> <div role="alert" aria-live="assertive" aria-atomic="true" align="center" class="toast alert alert-danger fade hide" data-delay="2000"><?php echo $status_inactive; ?></div><?php };?>
     </div>
+<!-- 
+    cookies -->
+
+    <?php
+$username_cookie = isset($_COOKIE['username_cookie']) ? $_COOKIE['username_cookie'] : '';
+?>
+
+
     <div class="row animate__animated animate__pulse">
         <div class="col-md-4 offset-md-4">
             <form method="POST" action="">
@@ -126,7 +125,8 @@ if(isset($_SESSION['user_login'])){
                     <div class="col-sm-12">
                         
 					<label for="exampleInputEmail1" class="form-label">Usuario</label>
-					<input type="text" class="form-control" name="username" value="<?= isset($username)? $username: ''; ?>" placeholder="correo" id="inputEmail3"> <?php echo isset($input_arr['input_user_error'])? '<label>'.$input_arr['input_user_error'].'</label>':''; ?>
+					<input type="text" class="form-control" name="username" value="<?= isset($username)? $username: ''; ?>" placeholder="" id="inputEmail3"> 
+                    <?php echo isset($input_arr['input_user_error'])? '<label>'.$input_arr['input_user_error'].'</label>':''; ?>
                     </div>
                 </div>
 				<div class="form-group row">

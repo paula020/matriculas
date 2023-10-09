@@ -77,14 +77,14 @@
 		    <input name="pcontact" type="text" class="form-control" id="pcontact" value="<?php echo $row['pcontact']; ?>" pattern="[0-9]{10}" placeholder="+57..." required="">
 	  	</div>
 	  	<div class="form-group">
-		    <label for="class">Grado</label>
+		    <label for="class">Clase</label>
 		    <select name="class" class="form-control" id="class" required="" value="">
 		    	<option>Select</option>
-		    	<option value="Primero" <?= $row['class']=='Primero'? 'selected':'' ?>>Primero</option>
-		    	<option value="Segundo" <?= $row['class']=='Segundo'? 'selected':'' ?>>Segundo</option>
-		    	<option value="Tercero" <?= $row['class']=='Tercero'? 'selected':'' ?>>Tercero</option>
-		    	<option value="Cuarto" <?= $row['class']=='Cuarto'? 'selected':'' ?>>Cuarto</option>
-		    	<option value="Quinto" <?= $row['class']=='Quinto'? 'selected':'' ?>>Quinto</option>
+		    	<option value="Primero" <?= $row['class']=='Primero'? 'selected':'' ?>>Pintura</option>
+		    	<option value="Segundo" <?= $row['class']=='Segundo'? 'selected':'' ?>>Musica</option>
+		    	<option value="Tercero" <?= $row['class']=='Tercero'? 'selected':'' ?>>Danza</option>
+		    	<option value="Cuarto" <?= $row['class']=='Cuarto'? 'selected':'' ?>>Fotografia</option>
+		    	<option value="Quinto" <?= $row['class']=='Quinto'? 'selected':'' ?>>Teatro</option>
 		    </select>
 	  	</div>
 	  	<div class="form-group">
